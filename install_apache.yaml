@@ -1,21 +1,37 @@
 ---
 - hosts: all
-  vars:
-    http_port: 80
   become: true
   tasks:
-  - name: Install the latest version of Apache & PHP
-    package:
+  
+  - name: Install updates (CentOS)
+    dnf:
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution == "CentOS"
+  
+  - name: Install updates (Ubuntu)
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+
+- hosts: ubuntu
+  become: true
+  tasks:
+
+  - name: Install Apache & PHP on Ubuntu Server
+    apt:
       name:
-       -  httpd
-       -  php
+        - apache2
+        - libapache2-mod-php
       state: latest
-  - name: ensure apache is running
-    service:
-      name: httpd
-      state: started
-  handlers:
-    - name: restart apache
-      service:
-        name: httpd
-        state: restarted
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Install Apache & PHP on CentOS Servers
+    dnf:
+      name:
+        - httpd
+        - php
+      state: latest
+    when: ansible_distribution == "CentOS" 

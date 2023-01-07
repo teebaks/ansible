@@ -1,2 +1,7 @@
 # To Access Apache HTTP Server [httpd] after Installation & Starting Service on CentOS
 sudo firewall-cmd --add-port=80/tcp
+
+
+
+# To copy SSH pub keys to the Ubuntu server having different username
+ssh-copy-id -i ~/.ssh/id_ed25519.pub parallels@10.211.55.5
