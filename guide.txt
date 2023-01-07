@@ -1,0 +1,2 @@
+# To Access Apache HTTP Server [httpd] after Installation & Starting Service on CentOS
+sudo firewall-cmd --add-port=80/tcp
