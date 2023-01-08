@@ -15,6 +15,14 @@
       update_cache: yes
     when: ansible_distribution == "Ubuntu"
 
+  - name: Copy Site HTML
+    copy:
+      src:  site.html
+      dest: /var/www/html/index.html
+      owner: root
+      group: root
+      mode: 0644
+
 
 - hosts: ubuntu
   become: true
@@ -35,3 +43,4 @@
         - php
       state: latest
     when: ansible_distribution == "CentOS" 
+
