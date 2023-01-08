@@ -37,6 +37,27 @@
       group: root
       mode: 0644
 
+  - name: Start httpd (CentOS)
+    service:
+      name: httpd
+      state: started
+      enabled: yes
+    when: ansible_distribution == "CentOS"
+ 
+  - name: Change E-mail Address for Admin
+    lineinfile:
+      path: /etc/httpd/conf/httpd.conf
+      regexp: '^ServerAdmin'
+      line: ServerAdmin somebody@somewhere.ca
+    when: ansible_distribution == "CentOS"
+    register: httpd #Variable Name#
+
+  - name: restart httpd CentOS)
+    service:
+      name: httpd
+      state: restarted
+    when: httpd.changed
+
 
 - hosts: ubuntu
   become: true
@@ -57,4 +78,5 @@
         - php
       state: latest
     when: ansible_distribution == "CentOS" 
+
 
