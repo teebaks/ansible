@@ -1,0 +1,36 @@
+---
+- hosts: all
+  become: true
+  tasks:
+ 
+  - name: Create User
+    user:
+      name: fols
+      groups: root
+ 
+  - name: Add ssh key for fols
+    authorized_key:
+      user: fols
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEzQfJRgbBq5woZk/WIok0RTU3M/BfQV5nLeGz5Pp+Te ansible"
+
+  - name: Add Sudoers File Fols
+    copy:
+      src: sudoer_fols
+      dest: /etc/sudoers.d/fols
+      owner: root
+      group: root
+      mode: 0440
+  
+  - name: Install updates (CentOS)
+    dnf:
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution == "CentOS"
+  
+  - name: Install updates (Ubuntu)
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+ 
