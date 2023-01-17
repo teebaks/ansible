@@ -8,3 +8,8 @@ ssh-copy-id -i ~/.ssh/id_ed25519.pub parallels@10.211.55.5
 
 #Command Syntax on Linux [Simpler way instead of man command]
 curl https://cheat.sh/<command> E.g: curl https://cheat.sh/rsync
+
+#Resize command
+lvextend --resizefs -l +100%FREE /dev/mapper/cs-root
+
+truncate -s 0 /var/log/application.log
